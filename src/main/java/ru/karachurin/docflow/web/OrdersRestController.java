@@ -9,6 +9,7 @@ import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.OrderService;
 
+import javax.inject.Inject;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -27,7 +28,7 @@ public class OrdersRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Inject
     OrderService orderService;
 
     @GET

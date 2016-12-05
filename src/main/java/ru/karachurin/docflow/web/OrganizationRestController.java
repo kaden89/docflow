@@ -10,6 +10,7 @@ import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.EmployeeService;
 import ru.karachurin.docflow.service.OrganizationService;
 
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -24,13 +25,13 @@ public class OrganizationRestController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
-    @Autowired
+    @Inject
     OrganizationService organizationService;
 
-    @Autowired
+    @Inject
     DivisionService divisionService;
 
-    @Autowired
+    @Inject
     EmployeeService employeeService;
 
     @GET
