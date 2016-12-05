@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jdbc
+       http://www.springframework.org/schema/jdbc/spring-jdbc.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="ru.karachurin.**.web"/>
+    <context:component-scan base-package="ru.karachurin.**.service"/>
+
+    <!--<jdbc:initialize-database data-source="dataSource" enabled="${database.init}">-->
+    <!--<jdbc:script location="classpath:db/${jdbc.initLocation}"/>-->
+    <!--<jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>-->
+    <!--</jdbc:initialize-database>-->
+
+
+    <!--@Transaction annotation support -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!--Обеспечивает работу с транзакциями в Spring -->
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+
+    <!-- EntityManagerFactory -->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <!--Поставщик данных - hibernate-->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+                  p:showSql="${jpa.showSql}">
+            </bean>
+        </property>
+
+        <!--поиск сущностей в этом пакете-->
+        <property name="packagesToScan"
+                  value="ru.karachurin.docflow.model"/>
+
+    </bean>
+
+    <jpa:repositories base-package="ru.karachurin.**.repository"/>
+
+
+    <beans profile="test">
+        <context:property-placeholder location="classpath:db/testdb.properties" system-properties-mode="OVERRIDE"/>
+
+        <!--no pooling-->
+        <bean id="dataSource"
+              class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+              p:driverClassName="org.hsqldb.jdbcDriver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+
+    <beans profile="production">
+        <context:property-placeholder location="classpath:db/postgres.properties" system-properties-mode="OVERRIDE"/>
+        <bean id="dataSource"
+              class="org.apache.tomcat.jdbc.pool.DataSource"
+              p:driverClassName="org.postgresql.Driver"
+              p:url="${database.url}"
+              p:username="${database.username}"
+              p:password="${database.password}"/>
+    </beans>
+
+
+
+
+
+
+</beans>
