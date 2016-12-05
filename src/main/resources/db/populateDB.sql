@@ -19,11 +19,11 @@ VALUES (100003,'shop', '+ 77 77 77', 100001, NULL ),
        (100005,'developers', '+ 99 99 99', 100002, NULL ),
        (100006,'testers', '+ 55 55 55', 100002, NULL );
 
-INSERT INTO employees (ID,FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSITION, DIVISION_ID)
-VALUES (100007,'Vasya', 'Vasilev', 'Vasilevich', 'seller', 100003),
-       (100008,'Petya', 'Petrov', 'Petrovich', 'accountant', 100003),
-       (100009,'Ivan', 'Ivanov', 'Ivanovich', 'programmer', 100003),
-       (1000010,'Vasya', 'Vasilev', 'Vasilevich', 'tester', 100003);
+INSERT INTO employees (ID,FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSITION, DIVISION_ID, organization_id)
+VALUES (100007,'Vasya', 'Vasilev', 'Vasilevich', 'seller', 100003, 100001),
+       (100008,'Petya', 'Petrov', 'Petrovich', 'accountant', 100003, 100001),
+       (100009,'Ivan', 'Ivanov', 'Ivanovich', 'programmer', 100003, 100001),
+       (1000010,'Vasya', 'Vasilev', 'Vasilevich', 'tester', 100003, 100001);
 
 INSERT INTO orders (ID,SUBJECT, AUTHOR_ID, EXECUTOR_ID, DEADLINE, CONTROLLED, EXECUTED,TEXT)
 VALUES (1000011,'salary', 100007, 100008, '2016-12-31 00:00:00', FALSE, FALSE,'give me my money');

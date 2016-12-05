@@ -20,6 +20,9 @@ public class Employee extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DIVISION_ID", nullable = false)
     private Division division;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "organization_id", nullable = false)
+    private Organization organization;
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "executor")
     private List<Order> ordersToExecute;
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "author")
@@ -29,21 +32,23 @@ public class Employee extends BaseEntity {
 
     }
 
-    public Employee(String firstName, String lastName, String middleName, String position, Division division) {
+    public Employee(String firstName, String lastName, String middleName, String position, Division division, Organization organization) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.position = position;
         this.division = division;
+        this.organization = organization;
     }
 
-    public Employee(Integer id, String firstName, String lastName, String middleName, String position, Division division) {
+    public Employee(Integer id, String firstName, String lastName, String middleName, String position, Division division, Organization organization) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.position = position;
         this.division = division;
+        this.organization = organization;
     }
 
     public String getFirstName() {
@@ -84,6 +89,14 @@ public class Employee extends BaseEntity {
 
     public void setDivision(Division division) {
         this.division = division;
+    }
+
+    public Organization getOrganization() {
+        return organization;
+    }
+
+    public void setOrganization(Organization organization) {
+        this.organization = organization;
     }
 
     public List<Order> getOrdersToExecute() {
