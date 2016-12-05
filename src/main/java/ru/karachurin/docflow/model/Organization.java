@@ -70,4 +70,13 @@ public class Organization extends NamedEntity{
     public void setManager(Employee manager) {
         this.manager = manager;
     }
+
+    @Override
+    public String toString() {
+        return "Organization{" +
+                "legalAddress='" + legalAddress + '\'' +
+                ", physicalAddress='" + physicalAddress + '\'' +
+                ", manager=" + manager +
+                '}';
+    }
 }

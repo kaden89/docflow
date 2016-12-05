@@ -106,4 +106,15 @@ public class Employee extends BaseEntity {
     public void setGivenOrders(List<Order> givenOrders) {
         this.givenOrders = givenOrders;
     }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", position='" + position + '\'' +
+                ", organization=" + organization +
+                '}';
+    }
 }

@@ -36,6 +36,7 @@ public class OrganizationRestController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Organization> getAllOrganizations(){
+        log.info("get all organizations");
         return organizationService.getAll();
     }
 
@@ -43,6 +44,7 @@ public class OrganizationRestController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Organization getOrganization(@PathParam("id") int organizationId){
+        log.info("get organization with id "+ organizationId);
         return organizationService.get(organizationId);
     }
 
@@ -50,6 +52,7 @@ public class OrganizationRestController {
     @Path("/{id}/divisions")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Division> getDivisions(@PathParam("id") int organizationId){
+        log.info("get all divisions");
         return divisionService.findAllByOrganization(organizationId);
     }
 
@@ -57,12 +60,14 @@ public class OrganizationRestController {
     @Path("/{id}/divisions/{divisionId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Division getDivision(@PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+        log.info("get division with id "+divisionId);
         return divisionService.get(divisionId);
     }
     @GET
     @Path("/{id}/employees")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Employee> getEmployees(@PathParam("id") int organizationId){
+        log.info("get all employees");
         return employeeService.findAllByOrganization(organizationId);
     }
 
@@ -70,6 +75,7 @@ public class OrganizationRestController {
     @Path("/{id}/employees/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
     public Employee getEmployee(@PathParam("id") int organizationId,  @PathParam("employeeId") int employeeId){
+        log.info("get employee with id "+employeeId);
         return employeeService.get(employeeId);
     }
 
@@ -78,6 +84,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Organization createOrganization(Organization organization){
+        log.info("create organization "+organization);
         return organizationService.save(organization);
     }
 
@@ -87,6 +94,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Division createDivision(Division division, @PathParam("id") int organizationId){
+        log.info("create division "+division);
         return divisionService.save(division, organizationId);
     }
 
@@ -95,6 +103,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Employee createEmployee(Employee employee, @PathParam("id") int organizationId){
+        log.info("create employee "+employee);
         return employeeService.save(employee, organizationId);
     }
 
@@ -103,6 +112,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Organization updateOrganization(Organization organization, @PathParam("id") int organizationId){
+        log.info("update organization "+organization+" with id "+organizationId);
         return organizationService.update(organization, organizationId);
     }
 
@@ -111,6 +121,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Division updateDivision(Division division, @PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+        log.info("update division "+division+" with id "+divisionId);
         return divisionService.update(division, organizationId, divisionId);
     }
 
@@ -119,6 +130,7 @@ public class OrganizationRestController {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Employee updateEmployee(Employee employee, @PathParam("id") int organizationId, @PathParam("employeeId") int employeeId){
+        log.info("update employee "+employee+" with id "+employeeId);
         return employeeService.update(employee, organizationId, employeeId);
     }
 

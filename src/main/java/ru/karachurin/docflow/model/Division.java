@@ -62,4 +62,13 @@ public class Division extends NamedEntity{
     public void setOrganization(Organization organization) {
         this.organization = organization;
     }
+
+    @Override
+    public String toString() {
+        return "Division{" +
+                "manager=" + manager +
+                ", contacts='" + contacts + '\'' +
+                ", organization=" + organization +
+                '}';
+    }
 }
