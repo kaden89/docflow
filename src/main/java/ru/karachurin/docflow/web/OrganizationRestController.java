@@ -38,6 +38,20 @@ public class OrganizationRestController {
     public List<Organization> getAllOrganizations(){
         return organizationService.getAll();
     }
+
+    @GET
+    @Path("/{id}/divisions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Division> getDivisions(@PathParam("id") int organizationId){
+        return divisionService.findAllByOrganization(organizationId);
+    }
+
+    @GET
+    @Path("/{id}/divisions/{divisionId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Division getDivision(@PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+        return divisionService.get(divisionId);
+    }
     @GET
     @Path("/{id}/employees")
     @Produces(MediaType.APPLICATION_JSON)
@@ -46,11 +60,12 @@ public class OrganizationRestController {
     }
 
     @GET
-    @Path("/{id}/divisions")
+    @Path("/{id}/employees/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Division> getDivisions(@PathParam("id") int organizationId){
-        return divisionService.getAllHierarchy(organizationId);
+    public Employee getEmployee(@PathParam("id") int organizationId,  @PathParam("employeeId") int employeeId){
+        return employeeService.get(employeeId);
     }
+
 
     @POST
     @Path("/{id}/divisions")

@@ -46,6 +46,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<Organization> getAll() {
-        return (List<Organization>) repository.findAllHierarchy();
+        return (List<Organization>) repository.findAll();
     }
 }

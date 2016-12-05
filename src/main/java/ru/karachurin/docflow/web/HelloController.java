@@ -27,7 +27,7 @@ public class HelloController {
     public List<Division> hello(){
 //        repository.save(new Organization());
 //        repository.save(new Organization());
-        return divisionService.getAllHierarchy(1);
+        return divisionService.findAllByOrganization(1);
     }
 
 

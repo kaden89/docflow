@@ -1,5 +1,7 @@
 package ru.karachurin.docflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class Organization extends NamedEntity{
     private String legalAddress;
     @Column(name = "PHYSICAL_ADDRESS")
     private String physicalAddress;
-
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "organization")
     private List<Division> divisions;
 
