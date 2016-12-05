@@ -1,5 +1,7 @@
 package ru.karachurin.docflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -17,14 +19,18 @@ public class Employee extends BaseEntity {
     private String middleName;
     @Column(name = "POSITION")
     private String position;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "DIVISION_ID", nullable = false)
     private Division division;
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "executor")
     private List<Order> ordersToExecute;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "author")
     private List<Order> givenOrders;
 

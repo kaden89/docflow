@@ -13,11 +13,9 @@ public interface EmployeeService {
 
     void delete(int id) throws NotFoundException;
 
-    void deleteAll();
+    Employee update(Employee employee, int organizationId);
 
-    Employee update(Employee employee);
+    Employee save(Employee employee, int organizationId);
 
-    Employee save(Employee employee);
-
-    List<Employee> getAll();
+    List<Employee> findAllByOrganization(int organizationId);
 }

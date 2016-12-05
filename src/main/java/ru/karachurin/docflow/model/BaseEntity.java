@@ -1,5 +1,6 @@
 package ru.karachurin.docflow.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.Hibernate;
 import org.springframework.data.domain.Persistable;
 
@@ -36,6 +37,7 @@ public class BaseEntity implements Persistable<Integer> {
         return id;
     }
 
+    @JsonIgnore
     public boolean isNew() {
         return (this.id == null);
     }

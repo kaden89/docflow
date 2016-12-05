@@ -1,9 +1,13 @@
 package ru.karachurin.docflow.web;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.karachurin.docflow.model.Division;
+import ru.karachurin.docflow.model.Employee;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.DivisionService;
+import ru.karachurin.docflow.service.EmployeeService;
 import ru.karachurin.docflow.service.OrganizationService;
 
 import javax.ws.rs.*;
@@ -13,8 +17,12 @@ import java.util.List;
 /**
  * Created by Денис on 03.12.2016.
  */
-@Path("/organizations")
+@Path(value = OrganizationRestController.REST_URL)
 public class OrganizationRestController {
+
+    static final String REST_URL = "/v1/organizations";
+
+    protected final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
     OrganizationService organizationService;
@@ -22,10 +30,19 @@ public class OrganizationRestController {
     @Autowired
     DivisionService divisionService;
 
+    @Autowired
+    EmployeeService employeeService;
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Organization> getAllOrganizations(){
         return organizationService.getAll();
+    }
+    @GET
+    @Path("/{id}/employees")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Employee> getEmployees(@PathParam("id") int organizationId){
+        return employeeService.findAllByOrganization(organizationId);
     }
 
     @GET
