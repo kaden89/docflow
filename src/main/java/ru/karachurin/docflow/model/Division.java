@@ -18,9 +18,6 @@ public class Division extends NamedEntity{
     @Column(name = "CONTACTS")
     private String contacts;
     @JsonIgnore
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "division")
-    private List<Employee> employees;
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "ORGANIZATION_ID")
     private Organization organization;
@@ -56,14 +53,6 @@ public class Division extends NamedEntity{
 
     public void setContacts(String contacts) {
         this.contacts = contacts;
-    }
-
-    public List<Employee> getEmployees() {
-        return employees;
-    }
-
-    public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
     }
 
     public Organization getOrganization() {

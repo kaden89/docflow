@@ -26,17 +26,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void deleteAll() {
-
+        orderRepository.deleteAll();
     }
 
     @Override
     public Order update(Order order) {
-        return null;
+        return orderRepository.save(order);
     }
 
     @Override
     public Order save(Order order) {
-        return null;
+        order.setId(null);
+        return orderRepository.save(order);
     }
 
     @Override

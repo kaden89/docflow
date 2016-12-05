@@ -40,6 +40,13 @@ public class OrganizationRestController {
     }
 
     @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Organization getOrganization(@PathParam("id") int organizationId){
+        return organizationService.get(organizationId);
+    }
+
+    @GET
     @Path("/{id}/divisions")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Division> getDivisions(@PathParam("id") int organizationId){

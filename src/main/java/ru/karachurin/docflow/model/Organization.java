@@ -15,6 +15,9 @@ public class Organization extends NamedEntity{
     private String legalAddress;
     @Column(name = "PHYSICAL_ADDRESS")
     private String physicalAddress;
+    @OneToOne
+    @JoinColumn(name = "MANAGER_ID")
+    private Employee manager;
     @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "organization")
     private List<Division> divisions;
@@ -23,15 +26,17 @@ public class Organization extends NamedEntity{
 
     }
 
-    public Organization(String legalAddress, String physicalAddress) {
+    public Organization(String legalAddress, String physicalAddress, Employee manager) {
         this.legalAddress = legalAddress;
         this.physicalAddress = physicalAddress;
+        this.manager = manager;
     }
 
-    public Organization(Integer id, String name, String legalAddress, String physicalAddress) {
+    public Organization(Integer id, String name, String legalAddress, String physicalAddress, Employee manager) {
         super(id, name);
         this.legalAddress = legalAddress;
         this.physicalAddress = physicalAddress;
+        this.manager = manager;
     }
 
     public String getLegalAddress() {
@@ -58,4 +63,11 @@ public class Organization extends NamedEntity{
         this.divisions = divisions;
     }
 
+    public Employee getManager() {
+        return manager;
+    }
+
+    public void setManager(Employee manager) {
+        this.manager = manager;
+    }
 }

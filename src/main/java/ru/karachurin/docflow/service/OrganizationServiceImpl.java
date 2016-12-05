@@ -41,6 +41,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public Organization save(Organization organization) {
+        organization.setId(null);
         return repository.save(organization);
     }
 
