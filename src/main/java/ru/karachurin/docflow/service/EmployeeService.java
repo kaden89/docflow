@@ -13,7 +13,7 @@ public interface EmployeeService {
 
     void delete(int id) throws NotFoundException;
 
-    Employee update(Employee employee, int organizationId);
+    Employee update(Employee employee, int organizationId, int employeeId);
 
     Employee save(Employee employee, int organizationId);
 

@@ -34,7 +34,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee update(Employee employee, int organizationId) {
+    public Employee update(Employee employee, int organizationId, int employeeId) {
+        employee.setId(employeeId);
         employee.setOrganization(organizationRepository.findOne(organizationId));
         return employeeRepository.save(employee);
     }

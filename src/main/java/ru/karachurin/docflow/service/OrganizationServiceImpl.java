@@ -35,7 +35,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public Organization update(Organization organization) {
+    public Organization update(Organization organization, int organizationId) {
+        organization.setId(organizationId);
         return repository.save(organization);
     }
 

@@ -15,7 +15,7 @@ public interface OrganizationService {
 
     void deleteAll();
 
-    Organization update(Organization organization);
+    Organization update(Organization organization, int organizationId);
 
     Organization save(Organization organization);
 

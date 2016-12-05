@@ -75,6 +75,14 @@ public class OrganizationRestController {
 
 
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Organization createOrganization(Organization organization){
+        return organizationService.save(organization);
+    }
+
+
+    @POST
     @Path("/{id}/divisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -82,12 +90,36 @@ public class OrganizationRestController {
         return divisionService.save(division, organizationId);
     }
 
+    @POST
+    @Path("/{id}/employees")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Employee createEmployee(Employee employee, @PathParam("id") int organizationId){
+        return employeeService.save(employee, organizationId);
+    }
+
+    @PUT
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Organization updateOrganization(Organization organization, @PathParam("id") int organizationId){
+        return organizationService.update(organization, organizationId);
+    }
+
     @PUT
     @Path("/{id}/divisions/{divisionId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Division updateDivision(Division division, @PathParam("id") int organizationId){
-        return divisionService.update(division, organizationId);
+    public Division updateDivision(Division division, @PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+        return divisionService.update(division, organizationId, divisionId);
+    }
+
+    @PUT
+    @Path("/{id}/employees/{employeeId}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Employee updateEmployee(Employee employee, @PathParam("id") int organizationId, @PathParam("employeeId") int employeeId){
+        return employeeService.update(employee, organizationId, employeeId);
     }
 
 }

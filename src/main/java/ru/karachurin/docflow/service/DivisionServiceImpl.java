@@ -32,7 +32,8 @@ public class DivisionServiceImpl implements DivisionService {
     }
 
     @Override
-    public Division update(Division division, int organizationId) {
+    public Division update(Division division, int organizationId, int divisionId) {
+        division.setId(divisionId);
         division.setOrganization(organizationRepository.findOne(organizationId));
         return divisionRepository.save(division);
     }

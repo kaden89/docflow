@@ -13,7 +13,7 @@ public interface DivisionService {
 
     void delete(int id) throws NotFoundException;
 
-    Division update(Division division, int organizationId);
+    Division update(Division division, int organizationId, int divisionId);
 
     Division save(Division division, int organizationId);
 
