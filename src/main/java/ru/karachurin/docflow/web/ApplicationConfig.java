@@ -13,7 +13,7 @@ import java.util.Set;
 public class ApplicationConfig extends ResourceConfig {
 
    public ApplicationConfig(){
-       register(HelloController.class);
+       register(OrdersRestController.class);
        register(OrganizationRestController.class);
        register(RequestContextFilter.class);
        // register features
@@ -22,7 +22,7 @@ public class ApplicationConfig extends ResourceConfig {
 
     private Set<Class<?>> getRestResourceClasses() {
         Set<Class<?>> resources = new java.util.HashSet<Class<?>>();
-        resources.add(ru.karachurin.docflow.web.HelloController.class);
+        resources.add(OrdersRestController.class);
         return resources;
     }
 }

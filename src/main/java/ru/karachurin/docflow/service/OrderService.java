@@ -20,4 +20,8 @@ public interface OrderService {
     Order save(Order order);
 
     List<Order> getAll();
+
+    List<Order> getGiven(int employeeId);
+
+    List<Order> getToExecute(int employeeId);
 }
