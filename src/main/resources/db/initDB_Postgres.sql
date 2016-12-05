@@ -43,7 +43,6 @@ CREATE TABLE divisions
   contacts  VARCHAR(255),
   manager_id INTEGER,
   organization_id INTEGER NOT NULL,
-  parent_division_id INTEGER,
   FOREIGN KEY (manager_id) REFERENCES employees (id),
   FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
 );

@@ -19,5 +19,5 @@ public interface DivisionService {
 
     List<Division> getAll(int organizationId);
 
-    public List<Division> getAllHierarchy(int organizationId);
+    public List<Division> findAllByOrganization(int organizationId);
 }

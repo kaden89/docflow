@@ -13,6 +13,5 @@ import java.util.List;
  */
 @Transactional
 public interface DivisionRepository extends CrudRepository<Division, Integer> {
-    @Query("SELECT DISTINCT d FROM Division d WHERE d.parentDivision IS NULL AND d.organization.id =:organizationId")
-    public List<Division> findAllHierarchy(@Param("organizationId") int organizationId);
+    public List<Division> findAllByOrganizationId(int organizationId);
 }
