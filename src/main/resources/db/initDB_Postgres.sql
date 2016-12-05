@@ -31,7 +31,6 @@ CREATE TABLE employees
   last_name VARCHAR(255),
   middle_name VARCHAR(255),
   position VARCHAR(255),
-  division_id INTEGER,
   organization_id INTEGER NOT NULL,
   FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
 );

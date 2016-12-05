@@ -21,10 +21,6 @@ public class Employee extends BaseEntity {
     private String position;
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "DIVISION_ID", nullable = false)
-    private Division division;
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "organization_id", nullable = false)
     private Organization organization;
     @JsonIgnore
@@ -38,22 +34,20 @@ public class Employee extends BaseEntity {
 
     }
 
-    public Employee(String firstName, String lastName, String middleName, String position, Division division, Organization organization) {
+    public Employee(String firstName, String lastName, String middleName, String position, Organization organization) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.position = position;
-        this.division = division;
         this.organization = organization;
     }
 
-    public Employee(Integer id, String firstName, String lastName, String middleName, String position, Division division, Organization organization) {
+    public Employee(Integer id, String firstName, String lastName, String middleName, String position, Organization organization) {
         super(id);
         this.firstName = firstName;
         this.lastName = lastName;
         this.middleName = middleName;
         this.position = position;
-        this.division = division;
         this.organization = organization;
     }
 
@@ -87,14 +81,6 @@ public class Employee extends BaseEntity {
 
     public void setPosition(String position) {
         this.position = position;
-    }
-
-    public Division getDivision() {
-        return division;
-    }
-
-    public void setDivision(Division division) {
-        this.division = division;
     }
 
     public Organization getOrganization() {
