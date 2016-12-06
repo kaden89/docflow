@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Order;
+import ru.karachurin.docflow.model.State;
 import ru.karachurin.docflow.repository.OrderRepository;
 import ru.karachurin.docflow.util.exception.NotFoundException;
 
@@ -42,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order save(Order order) {
         order.setId(null);
+        order.setState(State.PREPARE);
         return orderRepository.save(order);
     }
 
@@ -58,5 +60,12 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getToExecute(int employeeId) {
         return orderRepository.findAllByExecutorId(employeeId);
+    }
+
+    @Override
+    public Order nextStep(int orderId) {
+        Order order = get(orderId);
+        order.nextStep();
+        return orderRepository.save(order);
     }
 }

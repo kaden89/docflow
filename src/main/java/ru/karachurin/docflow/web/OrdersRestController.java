@@ -3,11 +3,7 @@ package ru.karachurin.docflow.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.model.Order;
-import ru.karachurin.docflow.model.Organization;
-import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.OrderService;
 
 import javax.inject.Inject;
@@ -47,10 +43,10 @@ public class OrdersRestController {
     }
 
     @GET
-    @Path("/to-execute")
+    @Path("/to-nextStep")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllOrdersToExecute(@QueryParam("employee-id") int employeeId){
-        log.info("get all orders to execute for user with id "+employeeId);
+        log.info("get all orders to nextStep for user with id "+employeeId);
         List<Order> orders = orderService.getToExecute(employeeId);
         return Response.ok(orders).build();
     }
@@ -62,6 +58,12 @@ public class OrdersRestController {
         log.info("get all given orders from user with id "+employeeId);
         List<Order> orders =  orderService.getGiven(employeeId);
         return Response.ok(orders).build();
+    }
+
+    @POST
+    @Path("/{id}/nextStep")
+    public Response nextStep(@PathParam("id") int orderId){
+        return Response.ok(orderService.nextStep(orderId)).build();
     }
 
     @POST

@@ -26,11 +26,6 @@ public class Organization extends NamedEntity{
 
     }
 
-    public Organization(String legalAddress, String physicalAddress, Employee manager) {
-        this.legalAddress = legalAddress;
-        this.physicalAddress = physicalAddress;
-        this.manager = manager;
-    }
 
     public Organization(Integer id, String name, String legalAddress, String physicalAddress, Employee manager) {
         super(id, name);

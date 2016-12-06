@@ -34,14 +34,6 @@ public class Employee extends BaseEntity {
 
     }
 
-    public Employee(String firstName, String lastName, String middleName, String position, Organization organization) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.middleName = middleName;
-        this.position = position;
-        this.organization = organization;
-    }
-
     public Employee(Integer id, String firstName, String lastName, String middleName, String position, Organization organization) {
         super(id);
         this.firstName = firstName;

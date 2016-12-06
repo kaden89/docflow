@@ -33,21 +33,12 @@ public class Order extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EXECUTOR_ID", nullable = false)
     private Employee executor;
-
+    @Enumerated(EnumType.STRING)
     private State state;
 
 
     public Order(){
 
-    }
-    public Order(String subject, LocalDateTime deadline, boolean isControlled, boolean isExecuted, String text, Employee author, Employee executor) {
-        this.subject = subject;
-        this.deadline = deadline;
-        this.isControlled = isControlled;
-        this.isExecuted = isExecuted;
-        this.text = text;
-        this.author = author;
-        this.executor = executor;
     }
 
     public Order(Integer id, String subject, LocalDateTime deadline, boolean isControlled, boolean isExecuted, String text, Employee author, Employee executor) {
@@ -61,12 +52,9 @@ public class Order extends BaseEntity{
         this.executor = executor;
     }
 
-    public void nextState(){
+    public void nextStep(){
         switch (getState())
         {
-            case START:
-                setState(PREPARE);
-                break;
             case PREPARE:
                 setState(EXECUTION);
                 setExecuted(true);
@@ -84,6 +72,7 @@ public class Order extends BaseEntity{
                 setState(EXECUTION);
                 break;
             case RECEPTION:
+                setExecuted(true);
                 setState(END);
                 break;
         }

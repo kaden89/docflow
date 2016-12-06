@@ -55,7 +55,8 @@ CREATE TABLE orders
   deadline    TIMESTAMP,
   controlled  BOOLEAN,
   executed    BOOLEAN,
-  text        VARCHAR(255)
+  text        VARCHAR(255),
+  state       VARCHAR(255)
 );
 
 

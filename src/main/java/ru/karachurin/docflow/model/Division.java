@@ -26,12 +26,6 @@ public class Division extends NamedEntity{
 
     }
 
-    public Division(Employee manager, String contacts, Organization organization) {
-        this.manager = manager;
-        this.contacts = contacts;
-        this.organization = organization;
-    }
-
     public Division(Integer id, String name, Employee manager, String contacts, Organization organization) {
         super(id, name);
         this.manager = manager;

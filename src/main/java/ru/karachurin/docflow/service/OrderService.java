@@ -24,4 +24,6 @@ public interface OrderService {
     List<Order> getGiven(int employeeId);
 
     List<Order> getToExecute(int employeeId);
+
+    Order nextStep(int orderId);
 }
