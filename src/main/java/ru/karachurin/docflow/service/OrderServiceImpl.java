@@ -1,6 +1,8 @@
 package ru.karachurin.docflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.repository.OrderRepository;
 import ru.karachurin.docflow.util.exception.NotFoundException;
@@ -10,6 +12,8 @@ import java.util.List;
 /**
  * Created by Денис on 05.12.2016.
  */
+@Service
+@Transactional
 public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderRepository orderRepository;

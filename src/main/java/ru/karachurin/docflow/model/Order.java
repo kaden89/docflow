@@ -1,6 +1,10 @@
 package ru.karachurin.docflow.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+import ru.karachurin.docflow.util.json.LocalDateTimeAdapter;
+
 import javax.persistence.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
 /**
@@ -11,6 +15,7 @@ import java.time.LocalDateTime;
 public class Order extends BaseEntity{
     @Column(name = "SUBJECT")
     private String subject;
+    @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "DEADLINE")
     private LocalDateTime deadline;
     @Column(name = "CONTROLLED")
@@ -19,10 +24,10 @@ public class Order extends BaseEntity{
     private boolean isExecuted;
     @Column(name = "TEXT")
     private String text;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "AUTHOR_ID", nullable = false)
     private Employee author;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EXECUTOR_ID", nullable = false)
     private Employee executor;
 
@@ -58,6 +63,7 @@ public class Order extends BaseEntity{
         this.subject = subject;
     }
 
+    @XmlJavaTypeAdapter(LocalDateTimeAdapter.class)
     public LocalDateTime getDeadline() {
         return deadline;
     }
