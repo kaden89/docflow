@@ -13,11 +13,11 @@ VALUES (100001,'OOO Romashka', 'Ufa', 'Ufa'),
        (100002,'OOO Alfa', 'Moscow', 'Moscow'),
        (100100,'OOO Beta', 'Moscow', 'Moscow');
 
-INSERT INTO divisions (ID,NAME, CONTACTS, ORGANIZATION_ID, PARENT_DIVISION_ID)
-VALUES (100003,'shop', '+ 77 77 77', 100001, NULL ),
-       (100004,'accounting', '+ 88 88 88', 100001, 100003),
-       (100005,'developers', '+ 99 99 99', 100002, NULL ),
-       (100006,'testers', '+ 55 55 55', 100002, NULL );
+INSERT INTO divisions (ID,NAME, CONTACTS, ORGANIZATION_ID)
+VALUES (100003,'shop', '+ 77 77 77', 100001 ),
+       (100004,'accounting', '+ 88 88 88', 100001),
+       (100005,'developers', '+ 99 99 99', 100002 ),
+       (100006,'testers', '+ 55 55 55', 100002 );
 
 INSERT INTO employees (ID,FIRST_NAME, LAST_NAME, MIDDLE_NAME, POSITION, organization_id)
 VALUES (100007,'Vasya', 'Vasilev', 'Vasilevich', 'seller', 100001),

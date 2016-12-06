@@ -14,6 +14,6 @@ import java.util.List;
 public interface OrderRepository extends PagingAndSortingRepository<Order, Integer> {
     @Query("SELECT DISTINCT o FROM Order o WHERE o.author.id=:authorId")
     public List<Order> findAllByAuthorId(@Param("authorId") int authorId);
-    @Query("SELECT DISTINCT o FROM Order o WHERE o.executor.id=:executorId")
+    @Query("SELECT DISTINCT o FROM Order o WHERE o.executor.id=:executorId AND o.state!='PREPARE'")
     public List<Order> findAllByExecutorId(@Param("executorId") int executorId);
 }

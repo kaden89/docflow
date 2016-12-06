@@ -43,10 +43,10 @@ public class OrdersRestController {
     }
 
     @GET
-    @Path("/to-nextStep")
+    @Path("/to-execute")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllOrdersToExecute(@QueryParam("employee-id") int employeeId){
-        log.info("get all orders to nextStep for user with id "+employeeId);
+        log.info("get all orders to execute for user with id "+employeeId);
         List<Order> orders = orderService.getToExecute(employeeId);
         return Response.ok(orders).build();
     }
@@ -61,9 +61,12 @@ public class OrdersRestController {
     }
 
     @POST
-    @Path("/{id}/nextStep")
+    @Path("/{id}/next-step")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response nextStep(@PathParam("id") int orderId){
-        return Response.ok(orderService.nextStep(orderId)).build();
+        log.info("next step for order with id "+orderId);
+        Order order = orderService.nextStep(orderId);
+        return Response.ok(order).build();
     }
 
     @POST
