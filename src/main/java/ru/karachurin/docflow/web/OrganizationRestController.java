@@ -168,5 +168,28 @@ public class OrganizationRestController {
         return Response.ok(updated).build();
     }
 
+    @DELETE
+    @Path("/{id}")
+    public Response deleteOrganization(@PathParam("id") int organizationId){
+        log.info("delete organization with id "+organizationId);
+        organizationService.delete(organizationId);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/{id}/divisions/{divisionId}")
+    public Response deleteDivision(@PathParam("divisionId") int divisionId){
+        log.info("delete division with id "+divisionId);
+        divisionService.delete(divisionId);
+        return Response.ok().build();
+    }
+
+    @DELETE
+    @Path("/{id}/employees/{employeeId}")
+    public Response deleteEmployee(@PathParam("employeeId") int employeeId) {
+        log.info("delete employee with id " + employeeId);
+        employeeService.delete(employeeId);
+        return Response.ok().build();
+    }
 
 }
