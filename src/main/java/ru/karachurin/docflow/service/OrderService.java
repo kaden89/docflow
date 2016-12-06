@@ -15,7 +15,7 @@ public interface OrderService {
 
     void deleteAll();
 
-    Order update(Order order);
+    Order update(Order order, int orderId);
 
     Order save(Order order);
 
