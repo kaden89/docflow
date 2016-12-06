@@ -7,6 +7,9 @@ import javax.persistence.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.time.LocalDateTime;
 
+
+import static ru.karachurin.docflow.model.State.*;
+
 /**
  * Created by Денис on 02.12.2016.
  */
@@ -30,6 +33,9 @@ public class Order extends BaseEntity{
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "EXECUTOR_ID", nullable = false)
     private Employee executor;
+
+    private State state;
+
 
     public Order(){
 
@@ -55,6 +61,35 @@ public class Order extends BaseEntity{
         this.executor = executor;
     }
 
+    public void nextState(){
+        switch (getState())
+        {
+            case START:
+                setState(PREPARE);
+                break;
+            case PREPARE:
+                setState(EXECUTION);
+                setExecuted(true);
+                break;
+            case EXECUTION:
+                setState(CONTROL);
+                break;
+            case CONTROL:
+                if (isControlled())
+                    setState(RECEPTION);
+                else
+                    setState(REWORK);
+                break;
+            case REWORK:
+                setState(EXECUTION);
+                break;
+            case RECEPTION:
+                setState(END);
+                break;
+        }
+
+
+    }
     public String getSubject() {
         return subject;
     }
@@ -110,5 +145,13 @@ public class Order extends BaseEntity{
 
     public void setExecutor(Employee executor) {
         this.executor = executor;
+    }
+
+    public State getState() {
+        return state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
     }
 }
