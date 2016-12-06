@@ -12,7 +12,7 @@ import ru.karachurin.docflow.service.OrganizationService;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.*;
 import java.util.List;
 
 /**
@@ -36,57 +36,81 @@ public class OrganizationRestController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Organization> getAllOrganizations(){
+    public Response getAllOrganizations(){
         log.info("get all organizations");
-        return organizationService.getAll();
+        List<Organization> organizations = organizationService.getAll();
+        return Response.ok(organizations).build();
     }
 
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Organization getOrganization(@PathParam("id") int organizationId){
+    public Response getOrganization(@PathParam("id") int organizationId){
         log.info("get organization with id "+ organizationId);
-        return organizationService.get(organizationId);
+        Organization organization = organizationService.get(organizationId);
+        if (organization != null) {
+            return Response.ok(organization).build();
+        } else {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+            //return Response.status(Response.Status.NOT_FOUND).entity("Entity not found for ID: " + organizationId).build();
+        }
     }
 
     @GET
     @Path("/{id}/divisions")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Division> getDivisions(@PathParam("id") int organizationId){
+    public Response getDivisions(@PathParam("id") int organizationId){
         log.info("get all divisions");
-        return divisionService.findAllByOrganization(organizationId);
+        List<Division> divisions = divisionService.findAllByOrganization(organizationId);
+        return Response.ok(divisions).build();
     }
 
     @GET
     @Path("/{id}/divisions/{divisionId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Division getDivision(@PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+    public Response getDivision(@PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
         log.info("get division with id "+divisionId);
-        return divisionService.get(divisionId);
+        Division division = divisionService.get(divisionId);
+
+        if (division != null) {
+            return Response.ok(division).build();
+        } else {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
     }
     @GET
     @Path("/{id}/employees")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Employee> getEmployees(@PathParam("id") int organizationId){
+    public Response getEmployees(@PathParam("id") int organizationId){
         log.info("get all employees");
-        return employeeService.findAllByOrganization(organizationId);
+        List<Employee> employees = employeeService.findAllByOrganization(organizationId);
+        return Response.ok(employees).build();
     }
 
     @GET
     @Path("/{id}/employees/{employeeId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee getEmployee(@PathParam("id") int organizationId,  @PathParam("employeeId") int employeeId){
+    public Response getEmployee(@PathParam("id") int organizationId,  @PathParam("employeeId") int employeeId){
         log.info("get employee with id "+employeeId);
-        return employeeService.get(employeeId);
+        Employee employee =  employeeService.get(employeeId);
+
+        if (employee != null) {
+            return Response.ok(employee).build();
+        } else {
+            throw new WebApplicationException(Response.Status.NOT_FOUND);
+        }
     }
 
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Organization createOrganization(Organization organization){
+    public Response createOrganization(Organization organization, @Context UriInfo uriInfo){
         log.info("create organization "+organization);
-        return organizationService.save(organization);
+        Organization created = organizationService.save(organization);
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(created.getId()));
+        return Response.created(builder.build()).entity(organization).build();
     }
 
 
@@ -94,45 +118,55 @@ public class OrganizationRestController {
     @Path("/{id}/divisions")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Division createDivision(Division division, @PathParam("id") int organizationId){
+    public Response createDivision(Division division, @PathParam("id") int organizationId, @Context UriInfo uriInfo){
         log.info("create division "+division);
-        return divisionService.save(division, organizationId);
+        Division created =  divisionService.save(division, organizationId);
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(created.getId()));
+        return Response.created(builder.build()).entity(created).build();
     }
 
     @POST
     @Path("/{id}/employees")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee createEmployee(Employee employee, @PathParam("id") int organizationId){
+    public Response createEmployee(Employee employee, @PathParam("id") int organizationId, @Context UriInfo uriInfo){
         log.info("create employee "+employee);
-        return employeeService.save(employee, organizationId);
+        Employee created = employeeService.save(employee, organizationId);
+        UriBuilder builder = uriInfo.getAbsolutePathBuilder();
+        builder.path(Integer.toString(created.getId()));
+        return Response.created(builder.build()).entity(created).build();
     }
 
     @PUT
     @Path("/{id}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Organization updateOrganization(Organization organization, @PathParam("id") int organizationId){
+    public Response updateOrganization(Organization organization, @PathParam("id") int organizationId){
         log.info("update organization "+organization+" with id "+organizationId);
-        return organizationService.update(organization, organizationId);
+        Organization updated =  organizationService.update(organization, organizationId);
+        return Response.ok(updated).build();
     }
 
     @PUT
     @Path("/{id}/divisions/{divisionId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Division updateDivision(Division division, @PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
+    public Response updateDivision(Division division, @PathParam("id") int organizationId, @PathParam("divisionId") int divisionId){
         log.info("update division "+division+" with id "+divisionId);
-        return divisionService.update(division, organizationId, divisionId);
+        Division updated = divisionService.update(division, organizationId, divisionId);
+        return Response.ok(updated).build();
     }
 
     @PUT
     @Path("/{id}/employees/{employeeId}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Employee updateEmployee(Employee employee, @PathParam("id") int organizationId, @PathParam("employeeId") int employeeId){
+    public Response updateEmployee(Employee employee, @PathParam("id") int organizationId, @PathParam("employeeId") int employeeId){
         log.info("update employee "+employee+" with id "+employeeId);
-        return employeeService.update(employee, organizationId, employeeId);
+        Employee  updated = employeeService.update(employee, organizationId, employeeId);
+        return Response.ok(updated).build();
     }
+
 
 }
