@@ -10,7 +10,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <jersey.version>2.6</jersey.version>
+        <jersey.version>2.24.1</jersey.version>
         <spring-datajpa.version>1.10.5.RELEASE</spring-datajpa.version>
         <spring.version>4.2.0.RELEASE</spring.version>
         <slf4j.version>1.6.1</slf4j.version>
@@ -77,16 +77,23 @@
 
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-common -->
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
+        <!-- https://mvnrepository.com/artifact/com.eclipsesource.jaxrs/jersey-all -->
+        <dependency>
+            <groupId>com.eclipsesource.jaxrs</groupId>
+            <artifactId>jersey-all</artifactId>
+            <version>2.22.2</version>
+        </dependency>
+
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-client</artifactId>
-            <version>2.6</version>
+            <version>${jersey.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
             <artifactId>jersey-common</artifactId>
-            <version>2.6</version>
+            <version>${jersey.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.ws.rs</groupId>
@@ -97,18 +104,18 @@
             <dependency>
                 <groupId>org.glassfish.jersey.containers</groupId>
                 <artifactId>jersey-container-servlet</artifactId>
-                <version>2.6</version>
+                <version>${jersey.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.jersey.core</groupId>
                 <artifactId>jersey-server</artifactId>
-                <version>2.6</version>
+                <version>${jersey.version}</version>
             </dependency>
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.bundles.repackaged/jersey-guava -->
         <dependency>
             <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
             <artifactId>jersey-guava</artifactId>
-            <version>2.6</version>
+            <version>${jersey.version}</version>
         </dependency>
 
 
@@ -120,6 +127,10 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-core</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-aop</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -265,8 +276,14 @@
         <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.test-framework.providers/jersey-test-framework-provider-inmemory -->
         <dependency>
             <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-            <artifactId>jersey-test-framework-provider-jetty</artifactId>
-            <version>2.24.1</version>
+            <artifactId>jersey-test-framework-provider-grizzly2</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.testng/testng -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.10</version>
         </dependency>
 
 
@@ -287,11 +304,7 @@
             <artifactId>mockito-all</artifactId>
             <version>1.10.8</version>
         </dependency>
-        <dependency>
-            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
-            <artifactId>jersey-test-framework-provider-external</artifactId>
-            <version>2.5.1</version>
-        </dependency>
+
         <!-- Tomcat pool -->
         <dependency>
             <groupId>org.apache.tomcat</groupId>
