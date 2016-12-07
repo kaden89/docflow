@@ -30,7 +30,6 @@ public class Organization extends NamedEntity{
 
     }
 
-
     public Organization(Integer id, String name, String legalAddress, String physicalAddress, Employee manager) {
         super(id, name);
         this.legalAddress = legalAddress;
