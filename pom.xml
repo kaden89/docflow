@@ -10,7 +10,7 @@
 
     <properties>
         <java.version>1.8</java.version>
-        <jersey.version>2.14</jersey.version>
+        <jersey.version>2.6</jersey.version>
         <spring-datajpa.version>1.10.5.RELEASE</spring-datajpa.version>
         <spring.version>4.2.0.RELEASE</spring.version>
         <slf4j.version>1.6.1</slf4j.version>
@@ -69,10 +69,46 @@
         <!--<version>1.19</version>-->
         <!--</dependency>-->
         <!-- https://mvnrepository.com/artifact/com.sun.jersey/jersey-core -->
+        <!--<dependency>-->
+            <!--<groupId>com.sun.jersey</groupId>-->
+            <!--<artifactId>jersey-core</artifactId>-->
+            <!--<version>1.19</version>-->
+        <!--</dependency>-->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-common -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.core/jersey-client -->
         <dependency>
-            <groupId>com.sun.jersey</groupId>
-            <artifactId>jersey-core</artifactId>
-            <version>1.19</version>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jersey.core</groupId>
+            <artifactId>jersey-common</artifactId>
+            <version>2.6</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.0</version>
+        </dependency>
+
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet</artifactId>
+                <version>2.6</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>2.6</version>
+            </dependency>
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.bundles.repackaged/jersey-guava -->
+        <dependency>
+            <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+            <artifactId>jersey-guava</artifactId>
+            <version>2.6</version>
         </dependency>
 
 
@@ -224,6 +260,15 @@
 
         <!-- testing -->
         <!-- Jersey-client -->
+
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.test-framework.providers/jersey-test-framework-provider-grizzly2 -->
+        <!-- https://mvnrepository.com/artifact/org.glassfish.jersey.test-framework.providers/jersey-test-framework-provider-inmemory -->
+        <dependency>
+            <groupId>org.glassfish.jersey.test-framework.providers</groupId>
+            <artifactId>jersey-test-framework-provider-jetty</artifactId>
+            <version>2.24.1</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.springframework</groupId>

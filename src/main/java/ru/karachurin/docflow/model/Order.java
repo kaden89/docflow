@@ -57,7 +57,6 @@ public class Order extends BaseEntity{
         {
             case PREPARE:
                 setState(EXECUTION);
-                setExecuted(true);
                 break;
             case EXECUTION:
                 setState(CONTROL);
