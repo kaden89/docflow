@@ -25,5 +25,5 @@ VALUES (100007,'Vasya', 'Vasilev', 'Vasilevich', 'seller', 100001),
        (100009,'Ivan', 'Ivanov', 'Ivanovich', 'programmer', 100001),
        (1000010,'Vasya', 'Vasilev', 'Vasilevich', 'tester', 100001);
 
-INSERT INTO orders (ID,SUBJECT, AUTHOR_ID, EXECUTOR_ID, DEADLINE, CONTROLLED, EXECUTED,TEXT)
-VALUES (1000011,'salary', 100007, 100008, '2016-12-31 00:00:00', FALSE, FALSE,'give me my money');
+INSERT INTO orders (ID,SUBJECT, AUTHOR_ID, EXECUTOR_ID, DEADLINE, CONTROLLED, EXECUTED,TEXT, STATE)
+VALUES (1000011,'salary', 100007, 100008, '2016-12-31 00:00:00', FALSE, FALSE,'give me my money', 'PREPARE');

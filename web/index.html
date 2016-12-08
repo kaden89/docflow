@@ -8,55 +8,118 @@
   <link rel="stylesheet" href="https://dojotoolkit.org/documentation/tutorials/1.10/_common/demo.css" media="screen">
   <link rel="stylesheet" href="https://dojotoolkit.org/documentation/tutorials/1.10/dijit_layout/demo/style.css" media="screen">
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css" media="screen">
-  <script>
-    require(["dojo/parser", "dojo/store/Memory", "dijit/tree/ObjectStoreModel", "dijit/Tree"]);
-  </script>
-  <script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
   <script>dojoConfig = {parseOnLoad: true}</script>
 </head>
 <body class="claro">
 <div id="appLayout" class="demoLayout"></div>
 <div id="test" ></div>
 </body>
-<script type="text/javascript" src="resources/js/main.js"></script>
+<div id="header">
+  Сотрудник: <select id="select-employee"></select>
+</div>
+
+<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+<script type="text/javascript" src="resources/js/header.js"></script>
+<!--<script type="text/javascript" src="resources/js/main.js"></script>-->
 <script>
-  require(["dojo/dom", "dojo/request", "dojo/json",
-            "dojo/_base/array", "dojo/domReady!"],
-          function(dom, request, JSON, arrayUtil){
-            var restURL = "http://localhost:7070/docflow/rest/v1/organizations";
-            // Results will be displayed in resultDiv
-            var resultDiv = dom.byId("test");
 
-            // Request the JSON data from the server
-            request.get(restURL, {
-              // Parse data from JSON to a JavaScript object
-              handleAs: "json"
-            }).then(function(data){
-                      // Display the data sent from the server
-                      var html = "<h2>JSON Data</h2>" +
-                              "<p>JSON encoded data:</p>" +
-                              "<p><code>" + JSON.stringify(data) + "</code></p>"+
-                              "<h3>Accessing the JSON data</h3>" +
-                              "<p><strong>title</strong> " + data.title + "</p>" +
-                              "<p><strong>items</strong> An array of items." +
-                              "Each item has a name and a value.  The type of " +
-                              "the value is shown in parentheses.</p><dl>";
+  require(["dojo/_base/window", "dojo/store/Memory",  "dijit/tree/ObjectStoreModel"
+            ,"dijit/Tree","dijit/registry","dijit/layout/BorderContainer"
+            , "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dojo/domReady!"],
+          function(win, Memory, ObjectStoreModel, Tree, registry,BorderContainer, TabContainer,ContentPane){
+            // create the BorderContainer and attach it to our appLayout div
+            var appLayout = new BorderContainer({
+              design: "headline"
+            }, "appLayout");
 
-                      arrayUtil.forEach(data.items, function(item,i){
-                        html += "<dt>" + item.name +
-                                "</dt><dd>" + item.value +
-                                " (" + (typeof item.value) + ")</dd>";
-                      });
-                      html += "</dl>";
 
-                      resultDiv.innerHTML = html;
-                    },
-                    function(error){
-                      // Display the error returned
-                      resultDiv.innerHTML = error;
-                    });
-          }
-  );
+            // create the TabContainer
+            var contentTabs = new TabContainer({
+              region: "center",
+              id: "contentTabs",
+              tabPosition: "bottom",
+              "class": "centerPanel"
+            });
+
+            // add the TabContainer as a child of the BorderContainer
+            appLayout.addChild( contentTabs );
+
+            // create and add the BorderContainer edge regions
+            appLayout.addChild(
+                    new ContentPane({
+                      region: "top",
+                      "class": "edgePanel"
+                    },"header")
+            );
+            var left = new ContentPane({
+              region: "left",
+              id: "leftCol", "class": "edgePanel",
+              content: "Sidebar content (left)",
+              splitter: true
+            });
+
+            // Create test store, adding the getChildren() method required by ObjectStoreModel
+            var myStore = new Memory({
+              data: [
+                { id: 'world', name:'The earth', type:'planet', population: '6 billion'},
+                { id: 'AF', name:'Africa', type:'continent', population:'900 million', area: '30,221,532 sq km',
+                  timezone: '-1 UTC to +4 UTC', parent: 'world'},
+                { id: 'EG', name:'Egypt', type:'country', parent: 'AF' },
+                { id: 'KE', name:'Kenya', type:'country', parent: 'AF' },
+                { id: 'Nairobi', name:'Nairobi', type:'city', parent: 'KE' },
+                { id: 'Mombasa', name:'Mombasa', type:'city', parent: 'KE' },
+                { id: 'SD', name:'Sudan', type:'country', parent: 'AF' },
+                { id: 'Khartoum', name:'Khartoum', type:'city', parent: 'SD' },
+                { id: 'AS', name:'Asia', type:'continent', parent: 'world' },
+                { id: 'CN', name:'China', type:'country', parent: 'AS' },
+                { id: 'IN', name:'India', type:'country', parent: 'AS' },
+                { id: 'RU', name:'Russia', type:'country', parent: 'AS' },
+                { id: 'MN', name:'Mongolia', type:'country', parent: 'AS' },
+                { id: 'OC', name:'Oceania', type:'continent', population:'21 million', parent: 'world'},
+                { id: 'EU', name:'Europe', type:'continent', parent: 'world' },
+                { id: 'DE', name:'Germany', type:'country', parent: 'EU' },
+                { id: 'FR', name:'France', type:'country', parent: 'EU' },
+                { id: 'ES', name:'Spain', type:'country', parent: 'EU' },
+                { id: 'IT', name:'Italy', type:'country', parent: 'EU' },
+                { id: 'NA', name:'North America', type:'continent', parent: 'world' },
+                { id: 'SA', name:'South America', type:'continent', parent: 'world' }
+              ],
+              getChildren: function(object){
+                return this.query({parent: object.id});
+              }
+            });
+
+            // Create the model
+            var myModel = new ObjectStoreModel({
+              store: myStore,
+              query: {id: 'world'}
+            });
+
+            // Create the Tree.
+            var tree = new Tree({
+              model: myModel
+            });
+
+//            tree.placeAt(win.body());
+//            tree.startup();
+            left.addChild(tree);
+            appLayout.addChild(left);
+
+            // Add initial content to the TabContainer
+            contentTabs.addChild(
+                    new ContentPane({
+                      href: "contentGroup1.html",
+                      title: "Group 1"
+                    })
+            );
+
+
+
+            // start up and do layout
+            appLayout.startup();
+
+
+          });
 
 </script>
 </html>
