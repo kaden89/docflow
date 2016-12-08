@@ -1,4 +1,4 @@
-package ru.karachurin.docflow.util;
+package ru.karachurin.docflow.web;
 
 import org.springframework.util.Assert;
 

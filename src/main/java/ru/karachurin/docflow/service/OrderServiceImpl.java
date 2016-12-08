@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.model.State;
 import ru.karachurin.docflow.repository.OrderRepository;
-import ru.karachurin.docflow.util.Range;
+import ru.karachurin.docflow.web.Range;
 
 import java.util.List;
 

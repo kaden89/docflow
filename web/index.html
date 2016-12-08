@@ -17,11 +17,13 @@
 <div id="header">
   Сотрудник: <select id="select-employee"></select>
 </div>
+<!--<script src="resources/js/dojoConfig.js"></script>-->
 
-<script src="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dojo/dojo.js"></script>
+<script src="webjars/dojo/1.10.4/dojo/dojo.js"></script>
 <script type="text/javascript" src="resources/js/header.js"></script>
 <!--<script type="text/javascript" src="resources/js/main.js"></script>-->
 <script>
+
   function getOrganizations(item){
     require(["dojo/dom", "dojo/request", "dojo/json",
               "dojo/_base/array", "dojo/domReady!"],
@@ -93,7 +95,7 @@
               data: [
                 { id: 'world', name:'The earth', type:'planet', population: '6 billion'},
                 { id: 'AF', name:'Africa', type:'continent', population:'900 million', area: '30,221,532 sq km',
-                  timezone: '-1 UTC to +4 UTC', parent: 'world', onClick: getOrganization},
+                  timezone: '-1 UTC to +4 UTC', parent: 'world', onClick: getOrganizations},
                 { id: 'organizations', name:'Egypt', type:'country', parent: 'AF' },
                 { id: 'KE', name:'Kenya', type:'country', parent: 'AF' },
                 { id: 'Nairobi', name:'Nairobi', type:'city', parent: 'KE' },
@@ -151,9 +153,40 @@
 
 
 
+
             // start up and do layout
             appLayout.startup();
 
+            require([
+              "dojox/grid/DataGrid",
+              "dojo/store/Memory",
+              "dojo/data/ObjectStore",
+              "dojo/request",
+              "dojo/domReady!"
+            ], function(DataGrid, Memory, ObjectStore, request){
+              var grid,  dataStore;
+              request.get("/docflow/rest/v1/organizations",{
+                handleAs: "json"
+              }).then(function(data){
+                dataStore = new ObjectStore({ objectStore:new Memory({ data: data.items }) });
+
+                grid = new DataGrid({
+                  store: dataStore,
+                  query: { id: "*" },
+                  queryOptions: {},
+                  structure: [
+                    { name: "First Name", field: "name", width: "25%" },
+                    { name: "Last Name", field: "name", width: "25%" },
+                    { name: "G", field: "name", width: "10%" },
+                    { name: "AB", field: "name", width: "10%" },
+                    { name: "R", field: "name", width: "10%" },
+                    { name: "H", field: "name", width: "10%" },
+                    { name: "RBI", field: "name", width: "10%" }
+                  ]
+                }, "mainTab");
+                grid.startup();
+              });
+            });
 
           });
 

@@ -32,11 +32,26 @@
     <!--</dependencyManagement>-->
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.dojotoolkit/dojo-maven -->
+        <!-- https://mvnrepository.com/artifact/org.dojotoolkit/dojo-war -->
         <dependency>
             <groupId>org.webjars</groupId>
             <artifactId>dojo</artifactId>
             <version>1.10.4-1</version>
         </dependency>
+
+        <!--<dependency>-->
+            <!--<groupId>org.webjars.bower</groupId>-->
+            <!--<artifactId>dgrid</artifactId>-->
+            <!--<version>1.1.0</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+            <!--<groupId>org.webjars.bower</groupId>-->
+            <!--<artifactId>dijit</artifactId>-->
+            <!--<version>1.11.2</version>-->
+        <!--</dependency>-->
+
+
         <!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-junit -->
         <!-- https://mvnrepository.com/artifact/postgresql/postgresql -->
         <dependency>

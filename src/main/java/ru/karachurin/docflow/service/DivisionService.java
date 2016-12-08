@@ -1,7 +1,7 @@
 package ru.karachurin.docflow.service;
 
 import ru.karachurin.docflow.model.Division;
-import ru.karachurin.docflow.util.Range;
+import ru.karachurin.docflow.web.Range;
 
 import java.util.List;
 

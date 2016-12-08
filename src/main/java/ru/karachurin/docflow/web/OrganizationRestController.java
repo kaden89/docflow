@@ -8,7 +8,6 @@ import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.EmployeeService;
 import ru.karachurin.docflow.service.OrganizationService;
-import ru.karachurin.docflow.util.Range;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
