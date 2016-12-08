@@ -22,6 +22,35 @@
 <script type="text/javascript" src="resources/js/header.js"></script>
 <!--<script type="text/javascript" src="resources/js/main.js"></script>-->
 <script>
+  function getOrganizations(item){
+    require(["dojo/dom", "dojo/request", "dojo/json",
+              "dojo/_base/array", "dojo/domReady!"],
+            function(dom, request, JSON, arrayUtil){
+              // Results will be displayed in resultDiv
+              var resultDiv = dom.byId("mainTab");
+              var REST_URL ="/docflow/rest/v1/";
+              // Request the JSON data from the server
+              request.get(REST_URL+item.id+"/", {
+                // Parse data from JSON to a JavaScript object
+                handleAs: "json"
+              }).then(function(data){
+                        // Display the data sent from the server
+                        var html = "";
+
+                        arrayUtil.forEach(data, function(item,i){
+                          html += "<div"+" data-id="+item.id+"> " + item.name +"</div>";
+                        });
+
+
+                        resultDiv.innerHTML = html;
+                      },
+                      function(error){
+                        // Display the error returned
+                        resultDiv.innerHTML = error;
+                      });
+            }
+    );
+  }
 
   require(["dojo/_base/window", "dojo/store/Memory",  "dijit/tree/ObjectStoreModel"
             ,"dijit/Tree","dijit/registry","dijit/layout/BorderContainer"
@@ -58,13 +87,14 @@
               splitter: true
             });
 
+
             // Create test store, adding the getChildren() method required by ObjectStoreModel
             var myStore = new Memory({
               data: [
                 { id: 'world', name:'The earth', type:'planet', population: '6 billion'},
                 { id: 'AF', name:'Africa', type:'continent', population:'900 million', area: '30,221,532 sq km',
-                  timezone: '-1 UTC to +4 UTC', parent: 'world'},
-                { id: 'EG', name:'Egypt', type:'country', parent: 'AF' },
+                  timezone: '-1 UTC to +4 UTC', parent: 'world', onClick: getOrganization},
+                { id: 'organizations', name:'Egypt', type:'country', parent: 'AF' },
                 { id: 'KE', name:'Kenya', type:'country', parent: 'AF' },
                 { id: 'Nairobi', name:'Nairobi', type:'city', parent: 'KE' },
                 { id: 'Mombasa', name:'Mombasa', type:'city', parent: 'KE' },
@@ -97,7 +127,12 @@
 
             // Create the Tree.
             var tree = new Tree({
-              model: myModel
+              model: myModel,
+              getDomNodeById: function( id ) // new function to find DOM node
+              {
+                return this._itemNodesMap[ id ][0];
+              },
+              onClick: getOrganizations
             });
 
 //            tree.placeAt(win.body());
@@ -109,7 +144,8 @@
             contentTabs.addChild(
                     new ContentPane({
                       href: "contentGroup1.html",
-                      title: "Group 1"
+                      title: "Group 1",
+                      content: "<div id="+"mainTab"+"></div>"
                     })
             );
 

@@ -1,6 +1,8 @@
 package ru.karachurin.docflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Employee;
@@ -50,5 +52,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public List<Employee> findAllByOrganization(int organizationId) {
         return employeeRepository.findAllByOrganizationId(organizationId);
+    }
+    public List<Employee> findAllByOrganizationPageble(int organizationId, int page, int offset) {
+        return employeeRepository.findAllByOrganizationIdPageble(organizationId, createPageRequest(page, offset));
+    }
+
+
+    private Pageable createPageRequest(int page, int offset) {
+        return new PageRequest(page, offset);
     }
 }
