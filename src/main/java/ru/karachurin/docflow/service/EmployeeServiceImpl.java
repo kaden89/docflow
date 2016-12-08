@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Employee;
 import ru.karachurin.docflow.repository.EmployeeRepository;
 import ru.karachurin.docflow.repository.OrganizationRepository;
-import ru.karachurin.docflow.util.exception.NotFoundException;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -26,12 +26,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     OrganizationRepository organizationRepository;
 
     @Override
-    public Employee get(int id) throws NotFoundException {
+    public Employee get(int id) {
         return employeeRepository.findOne(id);
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(int id) {
         employeeRepository.delete(id);
     }
 
@@ -53,12 +53,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<Employee> findAllByOrganization(int organizationId) {
         return employeeRepository.findAllByOrganizationId(organizationId);
     }
-    public List<Employee> findAllByOrganizationPageble(int organizationId, int page, int offset) {
-        return employeeRepository.findAllByOrganizationIdPageble(organizationId, createPageRequest(page, offset));
+    public List<Employee> findAllByOrganizationPageable(int organizationId, Range range) {
+        return employeeRepository.findAllByOrganizationId(organizationId, new ChunkRequest(range.getLimit(), range.getOffset()));
+    }
+
+    private Pageable createPageRequest(int page, int limit) {
+        return new PageRequest(page, limit);
     }
 
 
-    private Pageable createPageRequest(int page, int offset) {
-        return new PageRequest(page, offset);
-    }
 }

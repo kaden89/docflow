@@ -2,13 +2,13 @@ package ru.karachurin.docflow.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.model.Employee;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.EmployeeService;
 import ru.karachurin.docflow.service.OrganizationService;
+import ru.karachurin.docflow.util.Range;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -81,10 +81,19 @@ public class OrganizationRestController {
     @GET
     @Path("/{id}/employees")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getEmployees(@PathParam("id") int organizationId){
-        log.info("get all employees");
-        List<Employee> employees = employeeService.findAllByOrganization(organizationId);
-        return Response.ok(employees).build();
+    public Response getEmployees(@PathParam("id") int organizationId, @Context HttpHeaders headers){
+        List<String> rangeHeaders = headers.getRequestHeader("range");
+        if (rangeHeaders==null){
+            log.info("get all employees");
+            List<Employee> employees = employeeService.findAllByOrganization(organizationId);
+            return Response.ok(employees).build();
+        }
+        else {
+            Range range = new Range(rangeHeaders.get(0));
+            log.info("get employees pageable");
+            List<Employee> employees = employeeService.findAllByOrganizationPageable(organizationId, range);
+            return Response.ok(employees).build();
+        }
     }
 
     @GET

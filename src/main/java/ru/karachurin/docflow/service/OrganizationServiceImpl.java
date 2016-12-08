@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.repository.OrganizationRepository;
-import ru.karachurin.docflow.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -20,12 +19,12 @@ public class OrganizationServiceImpl implements OrganizationService {
     OrganizationRepository repository;
 
     @Override
-    public Organization get(int id) throws NotFoundException {
+    public Organization get(int id)  {
         return repository.findOne(id);
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(int id)  {
         repository.delete(id);
     }
 

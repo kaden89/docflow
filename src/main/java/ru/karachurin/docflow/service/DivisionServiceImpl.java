@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.repository.DivisionRepository;
 import ru.karachurin.docflow.repository.OrganizationRepository;
-import ru.karachurin.docflow.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -22,12 +21,12 @@ public class DivisionServiceImpl implements DivisionService {
     @Autowired
     OrganizationRepository organizationRepository;
     @Override
-    public Division get(int id) throws NotFoundException {
+    public Division get(int id) {
         return divisionRepository.findOne(id);
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(int id) {
         divisionRepository.delete(id);
     }
 

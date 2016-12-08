@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.model.State;
 import ru.karachurin.docflow.repository.OrderRepository;
-import ru.karachurin.docflow.util.exception.NotFoundException;
 
 import java.util.List;
 
@@ -20,12 +19,12 @@ public class OrderServiceImpl implements OrderService {
     OrderRepository orderRepository;
 
     @Override
-    public Order get(int id) throws NotFoundException {
+    public Order get(int id) {
         return orderRepository.findOne(id);
     }
 
     @Override
-    public void delete(int id) throws NotFoundException {
+    public void delete(int id) {
         orderRepository.delete(id);
     }
 

@@ -13,5 +13,5 @@ import java.util.List;
 public interface EmployeeRepository extends PagingAndSortingRepository<Employee, Integer> {
     public List<Employee> findAllByOrganizationId(int organizationId);
 
-    public List<Employee> findAllByOrganizationIdPageble(int organizationId, Pageable pageable);
+    public List<Employee> findAllByOrganizationId(int organizationId, Pageable pageable);
 }
