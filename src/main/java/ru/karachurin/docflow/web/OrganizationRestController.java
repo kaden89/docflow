@@ -36,10 +36,19 @@ public class OrganizationRestController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllOrganizations(){
-        log.info("get all organizations");
-        List<Organization> organizations = organizationService.getAll();
-        return Response.ok(organizations).build();
+    public Response getAllOrganizations(@Context HttpHeaders headers){
+        List<String> rangeHeaders = headers.getRequestHeader("range");
+        if (rangeHeaders==null) {
+            log.info("get all organizations");
+            List<Organization> organizations = organizationService.getAll();
+            return Response.ok(organizations).build();
+        }
+        else {
+            Range range = new Range(rangeHeaders.get(0));
+            log.info("get all organizations pageable"+" limit: "+range.getLimit()+" offset: "+range.getOffset());
+            List<Organization> organizations = organizationService.getAllPageable(range);
+            return Response.ok(organizations).build();
+        }
     }
 
     @GET
@@ -59,10 +68,19 @@ public class OrganizationRestController {
     @GET
     @Path("/{id}/divisions")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getDivisions(@PathParam("id") int organizationId){
-        log.info("get all divisions");
-        List<Division> divisions = divisionService.findAllByOrganization(organizationId);
-        return Response.ok(divisions).build();
+    public Response getDivisions(@PathParam("id") int organizationId, @Context HttpHeaders headers){
+        List<String> rangeHeaders = headers.getRequestHeader("range");
+        if (rangeHeaders==null) {
+            log.info("get all divisions");
+            List<Division> divisions = divisionService.findAllByOrganization(organizationId);
+            return Response.ok(divisions).build();
+        }
+        else {
+            Range range = new Range(rangeHeaders.get(0));
+            log.info("get all divisions pageable"+" limit: "+range.getLimit()+" offset: "+range.getOffset());
+            List<Division> divisions = divisionService.findAllByOrganizationPageable(organizationId, range);
+            return Response.ok(divisions).build();
+        }
     }
 
     @GET
@@ -90,7 +108,7 @@ public class OrganizationRestController {
         }
         else {
             Range range = new Range(rangeHeaders.get(0));
-            log.info("get employees pageable");
+            log.info("get employees pageable"+" limit: "+range.getLimit()+" offset: "+range.getOffset());
             List<Employee> employees = employeeService.findAllByOrganizationPageable(organizationId, range);
             return Response.ok(employees).build();
         }

@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.repository.DivisionRepository;
 import ru.karachurin.docflow.repository.OrganizationRepository;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -52,5 +53,10 @@ public class DivisionServiceImpl implements DivisionService {
     @Override
     public List<Division> findAllByOrganization(int organizationId) {
         return divisionRepository.findAllByOrganizationId(organizationId);
+    }
+
+    @Override
+    public List<Division> findAllByOrganizationPageable(int organizationId, Range range) {
+        return divisionRepository.findAllByOrganizationId(organizationId, new ChunkRequest(range.getLimit(), range.getOffset()));
     }
 }

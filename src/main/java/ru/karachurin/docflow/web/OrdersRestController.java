@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.service.OrderService;
+import ru.karachurin.docflow.util.Range;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -27,10 +28,19 @@ public class OrdersRestController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllOrders(){
-        log.info("get all orders");
-        List<Order> orders = orderService.getAll();
-        return Response.ok(orders).build();
+    public Response getAllOrders(@Context HttpHeaders headers){
+        List<String> rangeHeaders = headers.getRequestHeader("range");
+        if (rangeHeaders==null) {
+            log.info("get all orders");
+            List<Order> orders = orderService.getAll();
+            return Response.ok(orders).build();
+        }
+        else {
+            Range range = new Range(rangeHeaders.get(0));
+            log.info("get all orders pageable"+" limit: "+range.getLimit()+" offset: "+range.getOffset());
+            List<Order> orders = orderService.getAllPageable(range);
+            return Response.ok(orders).build();
+        }
     }
 
     @GET

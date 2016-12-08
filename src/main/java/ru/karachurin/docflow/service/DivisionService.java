@@ -1,6 +1,7 @@
 package ru.karachurin.docflow.service;
 
 import ru.karachurin.docflow.model.Division;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface DivisionService {
     List<Division> getAll(int organizationId);
 
     public List<Division> findAllByOrganization(int organizationId);
+
+    public List<Division> findAllByOrganizationPageable(int organizationId, Range range);
 }

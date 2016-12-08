@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.repository.OrganizationRepository;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -16,37 +17,42 @@ import java.util.List;
 public class OrganizationServiceImpl implements OrganizationService {
 
     @Autowired
-    OrganizationRepository repository;
+    OrganizationRepository organizationRepository;
 
     @Override
     public Organization get(int id)  {
-        return repository.findOne(id);
+        return organizationRepository.findOne(id);
     }
 
     @Override
     public void delete(int id)  {
-        repository.delete(id);
+        organizationRepository.delete(id);
     }
 
     @Override
     public void deleteAll() {
-        repository.deleteAll();
+        organizationRepository.deleteAll();
     }
 
     @Override
     public Organization update(Organization organization, int organizationId) {
         organization.setId(organizationId);
-        return repository.save(organization);
+        return organizationRepository.save(organization);
     }
 
     @Override
     public Organization save(Organization organization) {
         organization.setId(null);
-        return repository.save(organization);
+        return organizationRepository.save(organization);
     }
 
     @Override
     public List<Organization> getAll() {
-        return (List<Organization>) repository.findAll();
+        return (List<Organization>) organizationRepository.findAll();
+    }
+
+    @Override
+    public List<Organization> getAllPageable(Range range) {
+        return (List<Organization>) organizationRepository.findAll(new ChunkRequest(range.getLimit(), range.getOffset()));
     }
 }

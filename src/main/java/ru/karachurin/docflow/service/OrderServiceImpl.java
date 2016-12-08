@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.model.State;
 import ru.karachurin.docflow.repository.OrderRepository;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -49,6 +50,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<Order> getAll() {
         return (List<Order>) orderRepository.findAll();
+    }
+
+    @Override
+    public List<Order> getAllPageable(Range range) {
+        return (List<Order>) orderRepository.findAll(new ChunkRequest(range.getLimit(), range.getOffset()));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ru.karachurin.docflow.service;
 
 import ru.karachurin.docflow.model.Order;
+import ru.karachurin.docflow.util.Range;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface OrderService {
     Order save(Order order);
 
     List<Order> getAll();
+
+    List<Order> getAllPageable(Range range);
 
     List<Order> getGiven(int employeeId);
 

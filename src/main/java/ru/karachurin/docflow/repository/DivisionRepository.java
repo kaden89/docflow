@@ -1,5 +1,6 @@
 package ru.karachurin.docflow.repository;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -15,4 +16,5 @@ import java.util.List;
 @Transactional
 public interface DivisionRepository extends PagingAndSortingRepository<Division, Integer> {
     public List<Division> findAllByOrganizationId(int organizationId);
+    public List<Division> findAllByOrganizationId(int organizationId, Pageable pageable);
 }
