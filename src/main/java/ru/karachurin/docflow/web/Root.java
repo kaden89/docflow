@@ -1,5 +1,9 @@
 package ru.karachurin.docflow.web;
 
+import ru.karachurin.docflow.model.Organization;
+import ru.karachurin.docflow.service.OrganizationService;
+
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,9 +12,10 @@ import java.util.List;
  * Created by Денис on 09.12.2016.
  */
 public class Root {
+
     private String name = "Organizations";
     private String id = "";
-    private List<Children> children = Arrays.asList(new Children("Divisions", "divisions", true), new Children("Employees", "employees", true));
+    private List<Organization> children;
     public Root() {
     }
 
@@ -22,11 +27,11 @@ public class Root {
         this.name = name;
     }
 
-    public List<Children> getChildren() {
+    public List<Organization> getChildren() {
         return children;
     }
 
-    public void setChildren(List<Children> children) {
+    public void setChildren(List<Organization> children) {
         this.children = children;
     }
 
