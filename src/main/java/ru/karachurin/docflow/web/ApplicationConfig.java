@@ -16,6 +16,7 @@ public class ApplicationConfig extends ResourceConfig {
        register(OrdersRestController.class);
        register(OrganizationRestController.class);
        register(RequestContextFilter.class);
+       register(RootController.class);
        // register features
        register(JacksonFeature.class);
    }

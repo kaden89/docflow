@@ -57,8 +57,8 @@
 
   require(["dojo/_base/window", "dojo/store/Memory",  "dijit/tree/ObjectStoreModel"
             ,"dijit/Tree","dijit/registry","dijit/layout/BorderContainer"
-            , "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dojo/domReady!"],
-          function(win, Memory, ObjectStoreModel, Tree, registry,BorderContainer, TabContainer,ContentPane){
+            , "dijit/layout/TabContainer", "dijit/layout/ContentPane", "dojo/store/JsonRest", "dojo/domReady!"],
+          function(win, Memory, ObjectStoreModel, Tree, registry,BorderContainer, TabContainer,ContentPane, JsonRest){
             // create the BorderContainer and attach it to our appLayout div
             var appLayout = new BorderContainer({
               design: "headline"
@@ -121,10 +121,54 @@
               },
               onClick: drawGrid
             });
+            var reststore = new JsonRest({
+              target:REST_URL,         // << adapt URL
+              idAttribute:"id",
+              mayHaveChildren: function(object){
+                // if true, we might be missing the data, false and nothing should be done
+//                return "children" in object;
+                return "children" in object;
+              },
+              getChildren: function(object, onComplete, onError){
+                // this.get calls 'mayHaveChildren' and if this returns true, it will load whats needed, overwriting the 'true' into '{ item }'
+                this.get(object.id).then(function(fullObject){
+                  // copy to the original object so it has the children array as well.
+                  object.children = fullObject.children;
+                  // now that full object, we should have an array of children
+                  onComplete(fullObject.children);
+                }, function(error){
+                  // an error occurred, log it, and indicate no children
+                  console.error(error);
+                  onComplete([]);
+                });
+              },
+              getRoot: function(onItem, onError){
+                // get the root object, we will do a get() and callback the result
+                this.get("root").then(onItem, onError);
+              },
+              getLabel: function(object){
+                // just get the name (note some models makes use of 'labelAttr' as opposed to simply returning the key 'name')
+                return object.name;
+              }
+            });
+            var myModel1 = new ObjectStoreModel({
+              store: reststore
+            });
+
+
+            var tree1 = new Tree({
+              model: myModel1,
+              getDomNodeById: function( id ) // new function to find DOM node
+              {
+                return this._itemNodesMap[ id ][0];
+              },
+              onClick: drawGrid
+            });
 
 //            tree.placeAt(win.body());
 //            tree.startup();
             left.addChild(tree);
+            left.addChild(tree1);
             appLayout.addChild(left);
 
             // Add initial content to the TabContainer

@@ -5,6 +5,7 @@ package ru.karachurin.docflow.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,8 +23,8 @@ public class Organization extends NamedEntity{
     @OneToOne
     @JoinColumn(name = "MANAGER_ID")
     private Employee manager;
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "organization")
+    @JsonProperty(value = "children")
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
     private List<Division> divisions;
 
     public Organization(){
