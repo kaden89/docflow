@@ -7,6 +7,8 @@
   <title>Docflow</title>
   <link rel="stylesheet" href="https://dojotoolkit.org/documentation/tutorials/1.10/_common/demo.css" media="screen">
   <link rel="stylesheet" href="https://dojotoolkit.org/documentation/tutorials/1.10/dijit_layout/demo/style.css" media="screen">
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojox/grid/resources/Grid.css" />
+  <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.8.9/dojox/grid/resources/claroGrid.css" />
   <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/dojo/1.10.4/dijit/themes/claro/claro.css" media="screen">
   <script>dojoConfig = {parseOnLoad: true}</script>
 </head>
@@ -23,14 +25,13 @@
 <script type="text/javascript" src="resources/js/header.js"></script>
 <!--<script type="text/javascript" src="resources/js/main.js"></script>-->
 <script>
-
+  var REST_URL ="/docflow/rest/v1/";
   function getOrganizations(item){
     require(["dojo/dom", "dojo/request", "dojo/json",
               "dojo/_base/array", "dojo/domReady!"],
             function(dom, request, JSON, arrayUtil){
               // Results will be displayed in resultDiv
               var resultDiv = dom.byId("mainTab");
-              var REST_URL ="/docflow/rest/v1/";
               // Request the JSON data from the server
               request.get(REST_URL+item.id+"/", {
                 // Parse data from JSON to a JavaScript object
@@ -93,28 +94,12 @@
             // Create test store, adding the getChildren() method required by ObjectStoreModel
             var myStore = new Memory({
               data: [
-                { id: 'world', name:'The earth', type:'planet', population: '6 billion'},
-                { id: 'AF', name:'Africa', type:'continent', population:'900 million', area: '30,221,532 sq km',
-                  timezone: '-1 UTC to +4 UTC', parent: 'world', onClick: getOrganizations},
-                { id: 'organizations', name:'Egypt', type:'country', parent: 'AF' },
-                { id: 'KE', name:'Kenya', type:'country', parent: 'AF' },
-                { id: 'Nairobi', name:'Nairobi', type:'city', parent: 'KE' },
-                { id: 'Mombasa', name:'Mombasa', type:'city', parent: 'KE' },
-                { id: 'SD', name:'Sudan', type:'country', parent: 'AF' },
-                { id: 'Khartoum', name:'Khartoum', type:'city', parent: 'SD' },
-                { id: 'AS', name:'Asia', type:'continent', parent: 'world' },
-                { id: 'CN', name:'China', type:'country', parent: 'AS' },
-                { id: 'IN', name:'India', type:'country', parent: 'AS' },
-                { id: 'RU', name:'Russia', type:'country', parent: 'AS' },
-                { id: 'MN', name:'Mongolia', type:'country', parent: 'AS' },
-                { id: 'OC', name:'Oceania', type:'continent', population:'21 million', parent: 'world'},
-                { id: 'EU', name:'Europe', type:'continent', parent: 'world' },
-                { id: 'DE', name:'Germany', type:'country', parent: 'EU' },
-                { id: 'FR', name:'France', type:'country', parent: 'EU' },
-                { id: 'ES', name:'Spain', type:'country', parent: 'EU' },
-                { id: 'IT', name:'Italy', type:'country', parent: 'EU' },
-                { id: 'NA', name:'North America', type:'continent', parent: 'world' },
-                { id: 'SA', name:'South America', type:'continent', parent: 'world' }
+                { id: REST_URL+'organizations', name:'Organizations', type: 'root'},
+                { id: REST_URL+'organizations/divisions', name:'Divisions', parent: REST_URL+'organizations'},
+                { id: REST_URL+'organizations/employees', name:'Employees', parent: REST_URL+'organizations' },
+                { id: REST_URL+'orders', name:'Orders', type: 'root'},
+                { id: REST_URL+'orders/to-execute', name:'To execute', parent: REST_URL+'orders'},
+                { id: REST_URL+'orders/given', name:'Given', parent: REST_URL+'orders'}
               ],
               getChildren: function(object){
                 return this.query({parent: object.id});
@@ -124,7 +109,7 @@
             // Create the model
             var myModel = new ObjectStoreModel({
               store: myStore,
-              query: {id: 'world'}
+              query: {id: REST_URL+'organizations'}
             });
 
             // Create the Tree.
@@ -134,7 +119,7 @@
               {
                 return this._itemNodesMap[ id ][0];
               },
-              onClick: getOrganizations
+              onClick: drawGrid
             });
 
 //            tree.placeAt(win.body());
@@ -157,7 +142,7 @@
             // start up and do layout
             appLayout.startup();
 
-            require([
+            function drawGrid(item){ require([
               "dojox/grid/DataGrid",
               "dojo/store/Memory",
               "dojo/data/ObjectStore",
@@ -187,6 +172,7 @@
                 grid.startup();
               });
             });
+            }
 
           });
 
