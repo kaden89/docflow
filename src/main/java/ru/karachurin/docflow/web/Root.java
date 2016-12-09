@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class Root {
     private String name = "Organizations";
-    private String id = "root";
-    private List<Children> children = Arrays.asList(new Children("Divisions", "divisionsId", true), new Children("Employees", "employeesId", true));
+    private String id = "";
+    private List<Children> children = Arrays.asList(new Children("Divisions", "divisions", true), new Children("Employees", "employees", true));
     public Root() {
     }
 
