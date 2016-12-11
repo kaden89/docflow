@@ -1,13 +1,13 @@
 
 ALTER TABLE organization DROP CONSTRAINT ORGANIZATION_MANAGER;
-ALTER TABLE employees DROP CONSTRAINT DIVISION;
+ALTER TABLE divisions DROP CONSTRAINT division_manager;
 ALTER TABLE orders DROP CONSTRAINT ORDERS_AUTHOR;
 ALTER TABLE orders DROP CONSTRAINT ORDERS_EXECUTOR;
 
 DROP TABLE orders IF EXISTS;
+DROP TABLE employees IF EXISTS;
 DROP TABLE divisions IF EXISTS;
 DROP TABLE organization IF EXISTS;
-DROP TABLE employees IF EXISTS;
 
 DROP SEQUENCE global_seq IF EXISTS;
 
@@ -31,7 +31,8 @@ CREATE TABLE employees
   last_name VARCHAR(255),
   middle_name VARCHAR(255),
   position VARCHAR(255),
-  division_id INTEGER NOT NULL
+  organization_id INTEGER NOT NULL,
+  FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
 );
 
 CREATE TABLE divisions
@@ -41,8 +42,6 @@ CREATE TABLE divisions
   contacts  VARCHAR(255),
   manager_id INTEGER,
   organization_id INTEGER NOT NULL,
-  parent_division_id INTEGER,
-  FOREIGN KEY (manager_id) REFERENCES employees (id),
   FOREIGN KEY (organization_id) REFERENCES organization (id) ON DELETE CASCADE
 );
 
@@ -55,15 +54,16 @@ CREATE TABLE orders
   deadline    TIMESTAMP,
   controlled  BOOLEAN,
   executed    BOOLEAN,
-  text        VARCHAR(255)
+  text        VARCHAR(255),
+  state       VARCHAR(255)
 );
 
 
 ALTER TABLE organization
   ADD CONSTRAINT organization_manager FOREIGN KEY (manager_id) REFERENCES employees (id);
 
-ALTER TABLE employees
-  ADD CONSTRAINT division FOREIGN KEY (division_id) REFERENCES divisions (id);
+ALTER TABLE divisions
+  ADD CONSTRAINT division_manager FOREIGN KEY (manager_id) REFERENCES employees (id);
 
 ALTER TABLE orders
   ADD CONSTRAINT orders_author FOREIGN KEY (author_id) REFERENCES employees (id) ON DELETE CASCADE ;
