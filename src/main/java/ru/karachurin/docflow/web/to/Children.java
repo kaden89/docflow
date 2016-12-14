@@ -1,4 +1,4 @@
-package ru.karachurin.docflow.web;
+package ru.karachurin.docflow.web.to;
 
 /**
  * Created by Денис on 11.12.2016.

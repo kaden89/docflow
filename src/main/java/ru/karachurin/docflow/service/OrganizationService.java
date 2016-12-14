@@ -1,7 +1,8 @@
 package ru.karachurin.docflow.service;
 
+import org.springframework.data.domain.Page;
 import ru.karachurin.docflow.model.Organization;
-import ru.karachurin.docflow.web.Range;
+import ru.karachurin.docflow.web.to.Range;
 
 
 import java.util.List;
@@ -22,5 +23,5 @@ public interface OrganizationService {
 
     List<Organization> getAll();
 
-    List<Organization> getAllPageable(Range range);
+    Page<Organization> getAllPageable(Range range);
 }

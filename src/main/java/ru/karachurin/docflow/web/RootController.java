@@ -4,13 +4,14 @@ package ru.karachurin.docflow.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PathVariable;
 import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.model.Employee;
-import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.EmployeeService;
+import ru.karachurin.docflow.service.OrderService;
 import ru.karachurin.docflow.service.OrganizationService;
+import ru.karachurin.docflow.web.to.Children;
+import ru.karachurin.docflow.web.to.Root;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
@@ -40,6 +41,9 @@ public class RootController {
 
     @Inject
     EmployeeService employeeService;
+
+    @Inject
+    OrderService orderService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -80,4 +84,5 @@ public class RootController {
         Root root = new Root("employees", "", employees);
         return Response.ok(root).build();
     }
+
 }

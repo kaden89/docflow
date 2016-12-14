@@ -1,4 +1,4 @@
-package ru.karachurin.docflow.web;
+package ru.karachurin.docflow.web.to;
 
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.OrganizationService;

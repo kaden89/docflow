@@ -5,10 +5,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.karachurin.docflow.model.Order;
 import ru.karachurin.docflow.service.OrderService;
+import ru.karachurin.docflow.web.to.Children;
+import ru.karachurin.docflow.web.to.Range;
+import ru.karachurin.docflow.web.to.Root;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,6 +30,18 @@ public class OrdersRestController {
     OrderService orderService;
 
     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrders(){
+        Root root = new Root("Orders", "");
+        List<Children> children = new ArrayList<>();
+        children.add(new Children("All orders", "all", true));
+        children.add(new Children("To execute", "to-execute", true));
+        children.add(new Children("Given", "given", true));
+        root.setChildren(children);
+        return Response.ok(root).build();
+    }
+    @GET
+    @Path("/all")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllOrders(@Context HttpHeaders headers){
         List<String> rangeHeaders = headers.getRequestHeader("range");

@@ -35,7 +35,8 @@ public class Order extends BaseEntity{
     private Employee executor;
     @Enumerated(EnumType.STRING)
     private State state;
-
+    @Transient
+    private String name;
 
     public Order(){
 
@@ -141,5 +142,13 @@ public class Order extends BaseEntity{
 
     public void setState(State state) {
         this.state = state;
+    }
+
+    public String getName() {
+        return subject;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

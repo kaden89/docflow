@@ -4,13 +4,7 @@ package ru.karachurin.docflow.model;
 
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import ru.karachurin.docflow.web.Children;
-import ru.karachurin.docflow.web.Root;
-
 import javax.persistence.*;
-import java.util.Arrays;
 import java.util.List;
 
 /**

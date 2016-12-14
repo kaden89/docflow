@@ -91,37 +91,9 @@
             });
 
 
-            // Create test store, adding the getChildren() method required by ObjectStoreModel
-            var myStore = new Memory({
-              data: [
-                { id: REST_URL+'organizations', name:'Organizations', type: 'root'},
-                { id: REST_URL+'organizations/divisions', name:'Divisions', parent: REST_URL+'organizations'},
-                { id: REST_URL+'organizations/employees', name:'Employees', parent: REST_URL+'organizations' },
-                { id: REST_URL+'orders', name:'Orders', type: 'root'},
-                { id: REST_URL+'orders/to-execute', name:'To execute', parent: REST_URL+'orders'},
-                { id: REST_URL+'orders/given', name:'Given', parent: REST_URL+'orders'}
-              ],
-              getChildren: function(object){
-                return this.query({parent: object.id});
-              }
-            });
 
-            // Create the model
-            var myModel = new ObjectStoreModel({
-              store: myStore,
-              query: {id: REST_URL+'organizations'}
-            });
 
-            // Create the Tree.
-            var tree = new Tree({
-              model: myModel,
-              getDomNodeById: function( id ) // new function to find DOM node
-              {
-                return this._itemNodesMap[ id ][0];
-              },
-              onClick: drawGrid
-            });
-            var reststore = new JsonRest({
+            var organizationsRestStore = new JsonRest({
               target:REST_URL+'root',         // << adapt URL
               idAttribute:"id",
               getChildren: function(object){
@@ -130,8 +102,8 @@
                 });
               }
             });
-            var myModel1 = new ObjectStoreModel({
-              store: reststore,
+            var organizationsRestModel = new ObjectStoreModel({
+              store: organizationsRestStore,
               getRoot: function(onItem){
                 this.store.get("").then(onItem);
               },
@@ -142,8 +114,8 @@
             });
 
 
-            var tree1 = new Tree({
-              model: myModel1,
+            var organizationsTree = new Tree({
+              model: organizationsRestModel,
               getDomNodeById: function( id ) // new function to find DOM node
               {
                 return this._itemNodesMap[ id ][0];
@@ -153,8 +125,45 @@
 
 //            tree.placeAt(win.body());
 //            tree.startup();
-            left.addChild(tree);
-            left.addChild(tree1);
+              // Create test store, adding the getChildren() method required by ObjectStoreModel
+              var ordersRestStore = new JsonRest({
+                  target:REST_URL+'orders',         // << adapt URL
+                  idAttribute:"id",
+                  getChildren: function(object){
+                      return this.get(object.id).then(function(fullObject){
+                          if (fullObject.children == undefined) {
+                              return fullObject;
+                          }
+                          else {
+                              return fullObject.children
+                          }
+                      });
+                  }
+
+              });
+              var ordersRestModel = new ObjectStoreModel({
+                  store: ordersRestStore,
+                  getRoot: function(onItem){
+                      this.store.get("").then(onItem);
+                  },
+
+                  mayHaveChildren: function(object){
+                      return "children" in object;
+                  }
+              });
+
+              // Create the Tree.
+              var ordersTree = new Tree({
+                  model: ordersRestModel,
+                  getDomNodeById: function( id ) // new function to find DOM node
+                  {
+                      return this._itemNodesMap[ id ][0];
+                  },
+                  onClick: drawGrid
+              });
+
+            left.addChild(organizationsTree);
+            left.addChild(ordersTree);
             appLayout.addChild(left);
 
             // Add initial content to the TabContainer
@@ -172,36 +181,40 @@
             // start up and do layout
             appLayout.startup();
 
-            function drawGrid(item){ require([
-              "dojox/grid/DataGrid",
-              "dojo/store/Memory",
-              "dojo/data/ObjectStore",
-              "dojo/request",
-              "dojo/domReady!"
-            ], function(DataGrid, Memory, ObjectStore, request){
-              var grid,  dataStore;
-              request.get("/docflow/rest/v1/organizations",{
-                handleAs: "json"
-              }).then(function(data){
-                dataStore = new ObjectStore({ objectStore:new Memory({ data: data.items }) });
+            function drawGrid(item, node){ require([
+                "dojo/store/JsonRest",
+                "dojo/store/Memory",
+                "dojo/store/Cache",
+                "dojox/grid/DataGrid",
+                "dojo/data/ObjectStore",
+                "dojo/query",
+                "dojo/domReady!"
 
-                grid = new DataGrid({
+            ], function(JsonRest, Memory, Cache, DataGrid, ObjectStore, item, node){
+//              var grid,  dataStore;
+                //restStore = new JsonRest({target:"/docflow/rest/v1/organizations"});
+//              request.get("/docflow/rest/v1/organizations",{
+//                handleAs: "json"
+//              }).then(function(data){
+//                dataStore = new ObjectStore({ objectStore:new Memory({ data: data.items }) });
+                var objectStore = new dojo.store.JsonRest({target:"/docflow/rest/v1/organizations"});
+
+                var dataStore = new dojo.data.ObjectStore({objectStore: objectStore});
+
+                  grid = new DataGrid({
                   store: dataStore,
-                  query: { id: "*" },
-                  queryOptions: {},
                   structure: [
-                    { name: "First Name", field: "name", width: "25%" },
-                    { name: "Last Name", field: "name", width: "25%" },
-                    { name: "G", field: "name", width: "10%" },
-                    { name: "AB", field: "name", width: "10%" },
-                    { name: "R", field: "name", width: "10%" },
-                    { name: "H", field: "name", width: "10%" },
-                    { name: "RBI", field: "name", width: "10%" }
+                    { name: "Name", field: "name", width: "25%" }
+//                    { name: "Last Name", field: "name", width: "25%" },
+//                    { name: "G", field: "name", width: "10%" },
+//                    { name: "AB", field: "name", width: "10%" },
+//                    { name: "R", field: "name", width: "10%" },
+//                    { name: "H", field: "name", width: "10%" },
+//                    { name: "RBI", field: "name", width: "10%" }
                   ]
                 }, "mainTab");
                 grid.startup();
               });
-            });
             }
 
           });

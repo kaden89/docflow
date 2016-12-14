@@ -1,7 +1,7 @@
 package ru.karachurin.docflow.service;
 
 import ru.karachurin.docflow.model.Employee;
-import ru.karachurin.docflow.web.Range;
+import ru.karachurin.docflow.web.to.Range;
 
 import java.util.List;
 

@@ -2,12 +2,14 @@ package ru.karachurin.docflow.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import ru.karachurin.docflow.model.Division;
 import ru.karachurin.docflow.model.Employee;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.service.DivisionService;
 import ru.karachurin.docflow.service.EmployeeService;
 import ru.karachurin.docflow.service.OrganizationService;
+import ru.karachurin.docflow.web.to.Range;
 
 import javax.inject.Inject;
 import javax.ws.rs.*;
@@ -34,7 +36,6 @@ public class OrganizationRestController {
     EmployeeService employeeService;
 
     @GET
-    @Path("ss")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllOrganizations(@Context HttpHeaders headers){
         List<String> rangeHeaders = headers.getRequestHeader("range");
@@ -46,8 +47,8 @@ public class OrganizationRestController {
         else {
             Range range = new Range(rangeHeaders.get(0));
             log.info("get all organizations pageable"+" limit: "+range.getLimit()+" offset: "+range.getOffset());
-            List<Organization> organizations = organizationService.getAllPageable(range);
-            return Response.ok(organizations).build();
+            Page<Organization> organizations = organizationService.getAllPageable(range);
+            return Response.ok(organizations.getContent()).build();
         }
     }
 

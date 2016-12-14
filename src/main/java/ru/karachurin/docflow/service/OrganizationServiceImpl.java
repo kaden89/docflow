@@ -1,11 +1,12 @@
 package ru.karachurin.docflow.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Organization;
 import ru.karachurin.docflow.repository.OrganizationRepository;
-import ru.karachurin.docflow.web.Range;
+import ru.karachurin.docflow.web.to.Range;
 
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public List<Organization> getAllPageable(Range range) {
-        return (List<Organization>) organizationRepository.findAll(new ChunkRequest(range.getLimit(), range.getOffset()));
+    public Page<Organization> getAllPageable(Range range) {
+        return organizationRepository.findAll(new ChunkRequest(range.getLimit(), range.getOffset()));
     }
 }

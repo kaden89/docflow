@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.karachurin.docflow.model.Employee;
 import ru.karachurin.docflow.repository.EmployeeRepository;
 import ru.karachurin.docflow.repository.OrganizationRepository;
-import ru.karachurin.docflow.web.Range;
+import ru.karachurin.docflow.web.to.Range;
 
 import java.util.List;
 
