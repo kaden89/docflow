@@ -6,8 +6,11 @@ package ru.karachurin.docflow.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import ru.karachurin.docflow.web.Children;
+import ru.karachurin.docflow.web.Root;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -23,12 +26,12 @@ public class Organization extends NamedEntity{
     @OneToOne
     @JoinColumn(name = "MANAGER_ID")
     private Employee manager;
-    @JsonProperty(value = "children")
+    @Transient
+    private boolean children = true;
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER, mappedBy = "organization")
     private List<Division> divisions;
 
     public Organization(){
-
     }
 
     public Organization(Integer id, String name, String legalAddress, String physicalAddress, Employee manager) {
@@ -68,6 +71,14 @@ public class Organization extends NamedEntity{
 
     public void setManager(Employee manager) {
         this.manager = manager;
+    }
+
+    public boolean isChildren() {
+        return children;
+    }
+
+    public void setChildren(boolean children) {
+        this.children = children;
     }
 
     @Override

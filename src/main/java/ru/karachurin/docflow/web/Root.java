@@ -11,12 +11,23 @@ import java.util.List;
 /**
  * Created by Денис on 09.12.2016.
  */
-public class Root {
+public class Root<T> {
 
-    private String name = "Organizations";
-    private String id = "";
-    private List<Organization> children;
+    private String name;
+    private String id;
+    private List<T> children;
     public Root() {
+    }
+
+    public Root(String name, String id, List<T> children) {
+        this.name = name;
+        this.id = id;
+        this.children = children;
+    }
+
+    public Root(String name, String id) {
+        this.name = name;
+        this.id = id;
     }
 
     public String getName() {
@@ -27,14 +38,6 @@ public class Root {
         this.name = name;
     }
 
-    public List<Organization> getChildren() {
-        return children;
-    }
-
-    public void setChildren(List<Organization> children) {
-        this.children = children;
-    }
-
     public String getId() {
         return id;
     }
@@ -43,42 +46,11 @@ public class Root {
         this.id = id;
     }
 
-    private class Children{
-        private String name;
-        private String id;
-        private boolean children;
+    public List<T> getChildren() {
+        return children;
+    }
 
-        public Children(String name, String id, boolean children) {
-            this.name = name;
-            this.id = id;
-            this.children = children;
-        }
-
-        public Children() {
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public boolean isChildren() {
-            return children;
-        }
-
-        public void setChildren(boolean children) {
-            this.children = children;
-        }
+    public void setChildren(List<T> children) {
+        this.children = children;
     }
 }

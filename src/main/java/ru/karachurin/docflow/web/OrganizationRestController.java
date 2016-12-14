@@ -34,6 +34,7 @@ public class OrganizationRestController {
     EmployeeService employeeService;
 
     @GET
+    @Path("ss")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllOrganizations(@Context HttpHeaders headers){
         List<String> rangeHeaders = headers.getRequestHeader("range");

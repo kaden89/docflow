@@ -20,6 +20,7 @@ public class BaseEntity implements Persistable<Integer> {
     @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
     @Access(value = AccessType.PROPERTY)
+    @Column(name = "ID")
     protected Integer id;
 
     public BaseEntity() {

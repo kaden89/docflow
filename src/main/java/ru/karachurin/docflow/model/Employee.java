@@ -28,6 +28,8 @@ public class Employee extends BaseEntity {
     @JsonIgnore
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "author")
     private List<Order> givenOrders;
+    @Transient
+    private String name;
 
     public Employee(){
 
@@ -96,6 +98,14 @@ public class Employee extends BaseEntity {
 
     public void setGivenOrders(List<Order> givenOrders) {
         this.givenOrders = givenOrders;
+    }
+
+    public String getName() {
+        return firstName+" "+lastName+" "+middleName;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

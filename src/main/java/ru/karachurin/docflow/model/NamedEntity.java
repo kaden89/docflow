@@ -12,7 +12,7 @@ import javax.persistence.MappedSuperclass;
 public class NamedEntity extends BaseEntity {
 
     @NotEmpty
-    @Column(name = "name", nullable = false)
+    @Column(name = "NAME", nullable = false)
     protected String name;
 
     public NamedEntity() {

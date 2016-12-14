@@ -122,7 +122,7 @@
               onClick: drawGrid
             });
             var reststore = new JsonRest({
-              target:REST_URL,         // << adapt URL
+              target:REST_URL+'root',         // << adapt URL
               idAttribute:"id",
               getChildren: function(object){
                 return this.get(object.id).then(function(fullObject){
